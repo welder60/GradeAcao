@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}GradeAção{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+  {% block conteudo %}{% endblock %}
+  {% include "parciais/aviso_desvinculacao.html" %}
+</body>
+</html>

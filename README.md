@@ -18,7 +18,7 @@ O GradeAção não possui qualquer vínculo, patrocínio, convênio ou endosso d
 - Montagem interativa de grades horárias a partir de dados públicos da UnB
 - Comparação de múltiplos cenários antes do período de matrícula
 - Validação acadêmica contra matrizes curriculares
-- Autenticação segura com Supabase
+- Autenticação exclusiva com conta Google (OAuth 2.0)
 - Interface responsiva e intuitiva
 
 ## 🛠️ Stack
@@ -27,7 +27,7 @@ O GradeAção não possui qualquer vínculo, patrocínio, convênio ou endosso d
 |--------|-----------|
 | Backend | Django 5.0+ |
 | Banco de dados | PostgreSQL (Supabase) |
-| Autenticação | Supabase Auth |
+| Autenticação | Google OAuth 2.0 (django-allauth) |
 | Armazenamento | Supabase Storage |
 | Hospedagem / CI-CD | Railway |
 | Front-end | Templates Django + CSS + JavaScript |
@@ -57,6 +57,7 @@ pip install -r requirements-dev.txt
 # Configurar variáveis de ambiente
 cp .env.example .env
 # Preencha DJANGO_SECRET_KEY e DATABASE_URL no .env
+# Para login com Google, preencha GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET
 
 # Preparar banco de dados
 python manage.py migrate

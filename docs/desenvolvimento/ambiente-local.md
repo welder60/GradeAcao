@@ -75,6 +75,8 @@ mkdocs build --strict  # build de verificação; falha em links quebrados
 | `ALLOWED_HOSTS` | em produção | Lista separada por vírgula |
 | `CSRF_TRUSTED_ORIGINS` | em produção | Lista separada por vírgula |
 | `USE_SQLITE` | não | `True` dispensa PostgreSQL local |
-| `SUPABASE_URL` | não | URL do projeto Supabase |
+| `GOOGLE_CLIENT_ID` | para login | Client ID do OAuth 2.0 no Google Cloud Console |
+| `GOOGLE_CLIENT_SECRET` | para login | Client secret do OAuth 2.0; nunca exposto ao cliente |
+| `SUPABASE_URL` | não | URL do projeto Supabase (Storage) |
 | `SUPABASE_ANON_KEY` | não | Chave pública do Supabase |
 | `SUPABASE_SERVICE_KEY` | não | Chave de serviço; nunca exposta ao cliente |

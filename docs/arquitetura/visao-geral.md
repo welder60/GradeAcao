@@ -11,7 +11,7 @@ complexidade operacional de uma arquitetura distribuída.
 GradeAcao/
 ├── apps/
 │   ├── comum/          # páginas institucionais, base de templates, utilitários
-│   ├── contas/         # perfil acadêmico, autenticação, progresso do discente
+│   ├── contas/         # perfil acadêmico, autenticação (Google OAuth), progresso
 │   ├── catalogo/       # componentes curriculares, turmas, matrizes, oferta
 │   └── planejamento/   # grades, cenários, validação acadêmica, exportação
 ├── config/
@@ -33,7 +33,7 @@ GradeAcao/
 | App | Responsabilidade |
 |---|---|
 | `comum` | Página inicial, aviso de desvinculação, política de privacidade, template base, mixins e utilitários compartilhados |
-| `contas` | Cadastro, autenticação, perfil acadêmico declaratório, registro de progresso na matriz |
+| `contas` | Cadastro e autenticação via conta Google (OAuth 2.0, django-allauth), perfil acadêmico declaratório, registro de progresso na matriz |
 | `catalogo` | Componentes curriculares, pré-requisitos, co-requisitos, equivalências, turmas, períodos letivos, matrizes e importação de oferta |
 | `planejamento` | Montagem de grade, cenários, comparação, exportação, compartilhamento por link público |
 
@@ -51,7 +51,9 @@ depender de `request`. Isso viabiliza a cobertura mínima de 80% exigida pelo
 ## Ambiente de execução
 
 ```
-Navegador  ──HTTPS──▶  Django (Railway)  ──▶  PostgreSQL / Auth / Storage (Supabase)
+Navegador  ──HTTPS──▶  Django (Railway)  ──▶  PostgreSQL / Storage (Supabase)
+                              │
+                              └──OAuth 2.0──▶  Google (autenticação de usuários)
 ```
 
 Segredos vivem exclusivamente em variáveis de ambiente (**RNF19**); veja

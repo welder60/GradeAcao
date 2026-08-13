@@ -1,7 +1,7 @@
 # Documento de Requisitos de Software — GradeAção
 
 **Projeto:** GradeAção — Planejador de Grade Horária para Discentes da UnB
-**Versão:** 1.0
+**Versão:** 1.1
 **Data:** 13 de agosto de 2026
 **Natureza:** Projeto acadêmico independente, desenvolvido por discentes
 
@@ -94,7 +94,7 @@ O GradeAção permite ao discente montar, comparar e avaliar cenários de grade 
 
 ### 2.1 Perspectiva do Produto
 
-O GradeAção é um sistema **novo e autocontido**, sem dependência operacional de sistemas externos. Adota arquitetura **monolítica**, com renderização server-side e interatividade progressiva no cliente.
+O GradeAção é um sistema **novo e autocontido**, sem dependência operacional de sistemas institucionais; os únicos serviços externos utilizados são de infraestrutura (Railway, Supabase) e de autenticação (Google OAuth 2.0). Adota arquitetura **monolítica**, com renderização server-side e interatividade progressiva no cliente.
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -110,18 +110,19 @@ O GradeAção é um sistema **novo e autocontido**, sem dependência operacional
 │  │             │   matriz)    │   validações)     │  │
 │  └─────────────┴──────────────┴───────────────────┘  │
 │              Hospedagem: Railway                      │
-└───────────────────────┬──────────────────────────────┘
-                        │
-┌───────────────────────▼──────────────────────────────┐
-│                    Supabase                           │
-│      PostgreSQL  ·  Auth  ·  Storage (arquivos)       │
-└──────────────────────────────────────────────────────┘
-                        ▲
-                        │ carga manual / importação
-        ┌───────────────┴───────────────┐
-        │  Dados públicos de oferta e   │
-        │  de matriz curricular         │
-        └───────────────────────────────┘
+└───────────┬───────────────────────────┬──────────────┘
+            │                           │ OAuth 2.0
+┌───────────▼──────────────┐    ┌───────▼──────────────┐
+│         Supabase         │    │        Google        │
+│  PostgreSQL  ·  Storage  │    │   (autenticação de   │
+│       (arquivos)         │    │      usuários)       │
+└──────────────────────────┘    └──────────────────────┘
+            ▲
+            │ carga manual / importação
+┌───────────┴──────────────────┐
+│  Dados públicos de oferta e  │
+│  de matriz curricular        │
+└──────────────────────────────┘
 ```
 
 ### 2.2 Stack Tecnológica
@@ -131,7 +132,7 @@ O GradeAção é um sistema **novo e autocontido**, sem dependência operacional
 | Arquitetura | Monolito | Aplicação única, módulos internos por domínio |
 | Backend / Framework | Django | Python; templates server-side; Django ORM |
 | Banco de dados | PostgreSQL (Supabase) | Instância gerenciada |
-| Autenticação | Supabase Auth | E-mail/senha e/ou provedor OAuth público |
+| Autenticação | Google OAuth 2.0 (django-allauth) | Login exclusivo com conta Google; o sistema não gerencia senhas |
 | Armazenamento de arquivos | Supabase Storage | Exportações e arquivos de carga de dados |
 | Hospedagem / CI-CD | Railway | Deploy contínuo a partir do repositório |
 | Front-end | Templates Django + CSS + JS leve | Sem framework SPA; interatividade progressiva |
@@ -190,9 +191,9 @@ Mudou de curso ou teve alteração de matriz curricular. Precisa entender quais 
 
 | ID | Requisito | Prioridade |
 |---|---|---|
-| **RF01** | O sistema deve permitir que o discente crie conta informando e-mail e senha, com confirmação por e-mail. | M |
-| **RF02** | O sistema deve permitir autenticação e encerramento de sessão. | M |
-| **RF03** | O sistema deve permitir a recuperação de senha por e-mail. | M |
+| **RF01** | O sistema deve permitir que o discente crie conta autenticando-se com sua conta Google (OAuth 2.0), sem cadastro de senha local. | M |
+| **RF02** | O sistema deve permitir a autenticação via conta Google e o encerramento de sessão. | M |
+| **RF03** | ~~Recuperação de senha por e-mail.~~ **Não se aplica:** a autenticação é delegada ao Google e o sistema não gerencia senhas. | W |
 | **RF04** | O sistema deve permitir que o discente registre seu perfil acadêmico: curso, campus, matriz curricular e período de ingresso. | M |
 | **RF05** | O sistema deve permitir que o discente edite ou exclua seu perfil e sua conta, com remoção dos dados associados. | M |
 | **RF06** | O sistema deve permitir o uso do planejador sem cadastro, em sessão temporária, com a ressalva de que as grades não serão persistidas. | S |
@@ -309,7 +310,7 @@ Mudou de curso ou teve alteração de matriz curricular. Precisa entender quais 
 | ID | Requisito | Métrica de verificação |
 |---|---|---|
 | **RNF14** | Toda comunicação entre cliente e servidor deve ocorrer sobre HTTPS. | Verificação de certificado e redirecionamento |
-| **RNF15** | Senhas devem ser armazenadas exclusivamente como *hash* com algoritmo de custo ajustável, delegado ao provedor de autenticação. | Revisão de configuração |
+| **RNF15** | O sistema não deve armazenar senhas de usuários; a autenticação é integralmente delegada ao Google (OAuth 2.0), persistindo-se apenas o identificador da conta, o nome e o e-mail. | Revisão do modelo de dados e de configuração |
 | **RNF16** | O sistema deve coletar apenas os dados estritamente necessários à finalidade declarada, em observância ao princípio da necessidade previsto na LGPD. | Revisão do modelo de dados |
 | **RNF17** | O sistema não deve solicitar, armazenar ou transmitir credenciais de sistemas institucionais em nenhuma hipótese. | Revisão de código e de formulários |
 | **RNF18** | Um usuário não deve acessar grades ou perfis de outro usuário, exceto por link público expressamente gerado pelo titular. | Teste de controle de acesso |
@@ -501,7 +502,8 @@ Administrador
 
 | Requisito | Caso de uso | Regra de negócio | Prioridade |
 |---|---|---|---|
-| RF01–RF03 | UC03 | — | M |
+| RF01–RF02 | UC03 | — | M |
+| RF03 | — (não se aplica) | — | W |
 | RF04–RF05 | UC03 | RN12, RN13 | M |
 | RF06 | UC02 | — | S |
 | RF07–RF08 | UC01, UC11 | RN09 | M |
@@ -581,6 +583,7 @@ A versão 1.0 do GradeAção será considerada aceita quando:
 | **RI05** | Complexidade das regras de equivalência superar a estimativa | Médio | Média | Priorização MoSCoW; equivalências como *Should have* |
 | **RI06** | Indisponibilidade da equipe em período de provas | Médio | Alta | Planejamento de sprints alinhado ao calendário acadêmico |
 | **RI07** | Tratamento inadequado de dados pessoais | Alto | Baixa | Minimização de dados (RNF16), política de privacidade e exclusão completa de conta |
+| **RI08** | Dependência exclusiva do login com Google: indisponibilidade do provedor ou perda de acesso à conta Google impede o uso da ferramenta | Médio | Baixa | Autenticação delegada a provedor de alta disponibilidade; exportação de dados pessoais (RF44) preserva o acesso ao conteúdo |
 
 ---
 
@@ -619,7 +622,7 @@ A versão 1.0 do GradeAção será considerada aceita quando:
 - **IEEE 830-1998** — *Recommended Practice for Software Requirements Specifications* (estrutura de referência).
 - **W3C WCAG 2.1** — *Web Content Accessibility Guidelines*, nível AA.
 - **PEP 8** — *Style Guide for Python Code*.
-- Documentação oficial do Django, do Supabase e do Railway.
+- Documentação oficial do Django, do django-allauth, do Google Identity (OAuth 2.0), do Supabase e do Railway.
 
 ---
 
@@ -628,6 +631,7 @@ A versão 1.0 do GradeAção será considerada aceita quando:
 | Versão | Data | Descrição | Responsável |
 |---|---|---|---|
 | 1.0 | 13/08/2026 | Versão inicial do documento de requisitos | Equipe GradeAção |
+| 1.1 | 13/08/2026 | Autenticação alterada para login exclusivo com conta Google (OAuth 2.0 via django-allauth), em substituição a e-mail/senha (Supabase Auth): RF01–RF03, RNF15, stack, diagrama, riscos e referências | Equipe GradeAção |
 
 ---
 

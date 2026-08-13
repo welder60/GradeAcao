@@ -30,7 +30,7 @@ componentes curriculares e da matriz curricular de seu curso.
 |---|---|
 | Backend | Django (monolito, templates server-side) |
 | Banco de dados | PostgreSQL (Supabase) |
-| Autenticação | Supabase Auth |
+| Autenticação | Google OAuth 2.0 (django-allauth) |
 | Armazenamento | Supabase Storage |
 | Hospedagem / CI-CD | Railway |
 | Front-end | Templates Django + CSS + JS leve |

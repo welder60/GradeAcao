@@ -1,6 +1,10 @@
 site_name: GradeAção
 site_description: Planejador de grade horária para discentes da UnB — projeto acadêmico independente
 site_author: Equipe GradeAção
+site_url: https://welder60.github.io/GradeAcao/
+repo_url: https://github.com/welder60/GradeAcao
+repo_name: welder60/GradeAcao
+edit_uri: edit/main/docs/
 copyright: >
   Projeto acadêmico independente, sem vínculo, patrocínio ou endosso da
   Universidade de Brasília (UnB).
@@ -35,6 +39,8 @@ theme:
     - search.highlight
     - search.suggest
     - content.code.copy
+    - content.action.edit
+    - navigation.footer
 
 nav:
   - Início: index.md

@@ -2,7 +2,7 @@
 
 Perfis dos desenvolvedores responsáveis pelo GradeAção.
 
-## [Welder Rodrigues Po](https://github.com/welder60)
+## [Welder Rodrigues](https://github.com/welder60)
 
 - **GitHub**: [@welder60](https://github.com/welder60)
 - **Área**: Engenharia de Software

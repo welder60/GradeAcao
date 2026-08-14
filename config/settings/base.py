@@ -103,8 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LOGIN_URL = "/entrar/"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/conta/entrar/"
+LOGIN_REDIRECT_URL = "/planejamento/grades/"
 LOGOUT_REDIRECT_URL = "/"
 
 # --------------------------------------------------------------------------

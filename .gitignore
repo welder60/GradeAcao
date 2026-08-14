@@ -59,3 +59,9 @@ desktop.ini
 
 # --- Node (caso venha a ser usado para assets) ---
 node_modules/
+
+# --- Scripts locais de conveniencia (Windows) ---
+run.bat
+docs.bat
+test.bat
+lint.bat

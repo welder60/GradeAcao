@@ -23,6 +23,7 @@ componentes curriculares e da matriz curricular de seu curso.
 - [Documento de Requisitos](requisitos/documento-de-requisitos.md) — especificação completa (RF, RNF, RN, casos de uso)
 - [Visão Geral da Arquitetura](arquitetura/visao-geral.md) — estrutura do monolito Django
 - [Ambiente Local](desenvolvimento/ambiente-local.md) — como rodar o projeto
+- [Política de Privacidade](legal/politica-de-privacidade.md) — dados tratados, finalidade, base legal e retenção
 
 ## Stack
 

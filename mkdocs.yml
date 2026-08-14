@@ -55,6 +55,8 @@ nav:
       - Identidade Visual: design/identidade-visual.md
   - Equipe:
       - Desenvolvedores: equipe/desenvolvedores.md
+  - Legal:
+      - Política de Privacidade: legal/politica-de-privacidade.md
 
 markdown_extensions:
   - admonition

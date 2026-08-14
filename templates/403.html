@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block titulo %}Acesso restrito · GradeAção{% endblock %}
+
+{% block conteudo %}
+<main class="pagina-erro">
+  <h1>Acesso restrito</h1>
+  <p>
+    {% if exception %}{{ exception }}{% else %}
+      Você não tem permissão para acessar esta área.
+    {% endif %}
+  </p>
+  <p><a href="{% url 'comum:pagina_inicial' %}">Voltar à página inicial</a></p>
+</main>
+{% endblock %}

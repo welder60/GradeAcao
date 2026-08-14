@@ -52,6 +52,7 @@ nav:
   - Desenvolvimento:
       - Ambiente Local: desenvolvimento/ambiente-local.md
       - Padrões de Código: desenvolvimento/padroes.md
+      - Área de Curadoria: desenvolvimento/curadoria.md
   - Design:
       - Identidade Visual: design/identidade-visual.md
   - Equipe:

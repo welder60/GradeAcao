@@ -1,0 +1,75 @@
+{% extends "curadoria/base_curadoria.html" %}
+
+{% block titulo_curadoria %}{{ entidade.rotulo_plural|capfirst }}{% endblock %}
+
+{% block curadoria %}
+<div class="curadoria__titulo">
+  <h1>{{ entidade.rotulo_plural|capfirst }}</h1>
+  <a class="botao botao--primario" href="{% url 'curadoria:criar' entidade.slug %}">Novo registro</a>
+</div>
+{% if entidade.descricao %}<p class="curadoria__ajuda">{{ entidade.descricao }}</p>{% endif %}
+
+{% if entidade.busca or entidade.filtros %}
+<form class="curadoria__filtros" method="get" role="search">
+  {% if entidade.busca %}
+    <p class="campo-grupo">
+      <label for="q">Buscar</label>
+      <input type="search" id="q" name="q" value="{{ termo }}" placeholder="código ou nome">
+    </p>
+  {% endif %}
+  {% for filtro in opcoes_de_filtro %}
+    <p class="campo-grupo">
+      <label for="filtro-{{ filtro.nome }}">{{ filtro.rotulo|capfirst }}</label>
+      <select id="filtro-{{ filtro.nome }}" name="{{ filtro.nome }}">
+        <option value="">Todos</option>
+        {% for opcao in filtro.valores %}
+          <option value="{{ opcao.valor }}" {% if opcao.selecionado %}selected{% endif %}>{{ opcao.rotulo }}</option>
+        {% endfor %}
+      </select>
+    </p>
+  {% endfor %}
+  <button type="submit" class="botao">Filtrar</button>
+  <a class="botao botao--discreto" href="{% url 'curadoria:lista' entidade.slug %}">Limpar</a>
+</form>
+{% endif %}
+
+<p class="curadoria__contagem">{{ total }} registro{{ total|pluralize }} encontrado{{ total|pluralize }}.</p>
+
+{% if linhas %}
+<div class="tabela-rolagem">
+  <table class="tabela">
+    <thead>
+      <tr>
+        {% for cabecalho in cabecalhos %}<th scope="col">{{ cabecalho|capfirst }}</th>{% endfor %}
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for linha in linhas %}
+        <tr>
+          {% for valor in linha.valores %}<td>{{ valor }}</td>{% endfor %}
+          <td class="tabela__acoes">
+            <a href="{% url 'curadoria:editar' entidade.slug linha.objeto.pk %}">editar</a>
+            <a href="{% url 'curadoria:excluir' entidade.slug linha.objeto.pk %}">excluir</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  <p>Nenhum registro para os critérios informados.</p>
+{% endif %}
+
+{% if is_paginated %}
+<nav class="paginacao" aria-label="Paginação">
+  {% if page_obj.has_previous %}
+    <a href="?{{ parametros }}page={{ page_obj.previous_page_number }}">anterior</a>
+  {% endif %}
+  <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}
+    <a href="?{{ parametros }}page={{ page_obj.next_page_number }}">próxima</a>
+  {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

@@ -76,7 +76,8 @@ GradeAcao/
 │   ├── comum/          # Páginas institucionais e utilitários
 │   ├── contas/         # Perfil acadêmico e progresso
 │   ├── catalogo/       # Componentes, turmas e matrizes curriculares
-│   └── planejamento/   # Grades, cenários e validação acadêmica
+│   ├── planejamento/   # Grades, cenários e validação acadêmica
+│   └── curadoria/      # Área restrita de manutenção dos dados públicos
 ├── config/
 │   └── settings/       # Base, dev, prod
 ├── docs/               # Documentação MkDocs

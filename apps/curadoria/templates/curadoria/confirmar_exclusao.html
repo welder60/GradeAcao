@@ -1,0 +1,29 @@
+{% extends "curadoria/base_curadoria.html" %}
+
+{% block titulo_curadoria %}Excluir · {{ entidade.rotulo_plural|capfirst }}{% endblock %}
+
+{% block curadoria %}
+<p class="curadoria__trilha">
+  <a href="{% url 'curadoria:lista' entidade.slug %}">{{ entidade.rotulo_plural|capfirst }}</a> ·
+  exclusão
+</p>
+
+<h1>Excluir {{ entidade.rotulo }}</h1>
+
+<p>Confirma a exclusão de <strong>{{ objeto }}</strong>?</p>
+
+{% if dependentes %}
+  <div class="alerta">
+    <p>A exclusão também remove ou desvincula:</p>
+    <ul>{% for item in dependentes %}<li>{{ item }}</li>{% endfor %}</ul>
+  </div>
+{% endif %}
+
+<p class="curadoria__ajuda">A operação é registrada no log de curadoria (RF46).</p>
+
+<form method="post" class="curadoria__acoes">
+  {% csrf_token %}
+  <button type="submit" class="botao botao--perigo">Excluir</button>
+  <a class="botao botao--discreto" href="{% url 'curadoria:lista' entidade.slug %}">Cancelar</a>
+</form>
+{% endblock %}

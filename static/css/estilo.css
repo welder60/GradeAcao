@@ -1,4 +1,281 @@
 /* Estilos base do GradeAção — mobile-first (RNF01). */
 :root {
   color-scheme: light dark;
+
+  --cor-borda: color-mix(in srgb, currentColor 20%, transparent);
+  --cor-superficie: color-mix(in srgb, currentColor 4%, transparent);
+  --cor-acento: #1c5d3a;
+  --cor-perigo: #8c1d18;
+  --cor-alerta: #7a4b00;
+  --espaco: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Área de curadoria (RF15) — layout de coluna única no celular, com barra de
+   navegação lateral a partir de 60rem.
+   -------------------------------------------------------------------------- */
+
+.curadoria {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: var(--espaco);
+}
+
+.curadoria__cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem var(--espaco);
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.curadoria__marca a {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.curadoria__usuario {
+  font-size: 0.875rem;
+}
+
+.curadoria__corpo {
+  display: grid;
+  gap: calc(var(--espaco) * 1.5);
+  margin-top: var(--espaco);
+}
+
+@media (min-width: 60rem) {
+  .curadoria__corpo {
+    grid-template-columns: 15rem 1fr;
+  }
+}
+
+.curadoria__navegacao ul {
+  list-style: none;
+  margin: 0 0 var(--espaco);
+  padding: 0;
+}
+
+.curadoria__navegacao li + li {
+  margin-top: 0.25rem;
+}
+
+.curadoria__navegacao a[aria-current="page"] {
+  font-weight: 700;
+}
+
+.curadoria__secao {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.curadoria__titulo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.curadoria__ajuda,
+.curadoria__contagem,
+.curadoria__trilha {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+.curadoria__bloco {
+  margin-top: calc(var(--espaco) * 1.5);
+}
+
+.curadoria__mensagens {
+  list-style: none;
+  padding: 0;
+}
+
+.mensagem {
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--cor-acento);
+  background: var(--cor-superficie);
+}
+
+.mensagem--error {
+  border-color: var(--cor-perigo);
+}
+
+/* Cartões do painel */
+.curadoria__cartoes {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--espaco);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.cartao {
+  padding: 0.75rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.5rem;
+}
+
+.cartao h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.cartao__total {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.cartao__descricao {
+  font-size: 0.8125rem;
+  opacity: 0.8;
+}
+
+/* Formulários e filtros */
+.curadoria__filtros,
+.curadoria__formulario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin: var(--espaco) 0;
+}
+
+.curadoria__formulario {
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 40rem;
+}
+
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.campo,
+.curadoria__filtros input,
+.curadoria__filtros select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  min-height: 2.5rem;
+}
+
+.campo__ajuda {
+  font-size: 0.8125rem;
+  opacity: 0.75;
+}
+
+.campo__erro,
+.erros {
+  color: var(--cor-perigo);
+  font-size: 0.875rem;
+}
+
+.campo-grupo--erro .campo {
+  border-color: var(--cor-perigo);
+}
+
+.curadoria__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: var(--espaco);
+}
+
+/* Botões */
+.botao {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 2.5rem;
+}
+
+.botao--primario {
+  border-color: var(--cor-acento);
+  background: var(--cor-acento);
+  color: #fff;
+}
+
+.botao--perigo {
+  border-color: var(--cor-perigo);
+  color: var(--cor-perigo);
+}
+
+.botao:focus-visible,
+.campo:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--cor-acento);
+  outline-offset: 2px;
+}
+
+/* Tabelas */
+.tabela-rolagem {
+  overflow-x: auto;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.tabela th,
+.tabela td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--cor-borda);
+  vertical-align: top;
+}
+
+.tabela th {
+  background: var(--cor-superficie);
+  white-space: nowrap;
+}
+
+.tabela__acoes {
+  white-space: nowrap;
+}
+
+.tabela__acoes a + a {
+  margin-left: 0.5rem;
+}
+
+/* Sinalização por cor e por texto (RNF03) */
+.alerta {
+  padding: 0.5rem 0.75rem;
+  border-left: 3px solid var(--cor-alerta);
+  background: var(--cor-superficie);
+}
+
+.paginacao {
+  display: flex;
+  gap: var(--espaco);
+  align-items: center;
+  margin-top: var(--espaco);
+}
+
+.pagina-erro {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: calc(var(--espaco) * 2) var(--espaco);
 }

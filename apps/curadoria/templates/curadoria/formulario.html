@@ -1,0 +1,39 @@
+{% extends "curadoria/base_curadoria.html" %}
+
+{% block titulo_curadoria %}{{ acao }} · {{ entidade.rotulo_plural|capfirst }}{% endblock %}
+
+{% block curadoria %}
+<p class="curadoria__trilha">
+  <a href="{% url 'curadoria:lista' entidade.slug %}">{{ entidade.rotulo_plural|capfirst }}</a> ·
+  {{ acao }}
+</p>
+
+<h1>{{ acao }} — {{ entidade.rotulo }}</h1>
+
+<form method="post" class="curadoria__formulario" novalidate>
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <ul class="erros">
+      {% for erro in form.non_field_errors %}<li>{{ erro }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+
+  {% for campo in form %}
+    <p class="campo-grupo{% if campo.errors %} campo-grupo--erro{% endif %}">
+      {{ campo.label_tag }}
+      {{ campo }}
+      {% if campo.help_text %}<span class="campo__ajuda">{{ campo.help_text }}</span>{% endif %}
+      {% for erro in campo.errors %}<span class="campo__erro">{{ erro }}</span>{% endfor %}
+    </p>
+  {% endfor %}
+
+  <div class="curadoria__acoes">
+    <button type="submit" class="botao botao--primario">Gravar</button>
+    <a class="botao botao--discreto" href="{% url 'curadoria:lista' entidade.slug %}">Cancelar</a>
+    {% if object %}
+      <a class="botao botao--perigo" href="{% url 'curadoria:excluir' entidade.slug object.pk %}">Excluir</a>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}

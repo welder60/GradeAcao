@@ -1,0 +1,71 @@
+{% extends "curadoria/base_curadoria.html" %}
+
+{% block titulo_curadoria %}Painel de curadoria{% endblock %}
+
+{% block curadoria %}
+<h1>Painel de curadoria</h1>
+<p class="curadoria__ajuda">
+  Área restrita à manutenção dos dados públicos de oferta e de estrutura
+  acadêmica (RF15). Toda alteração fica registrada no log de operações (RF46).
+</p>
+
+<section class="curadoria__bloco">
+  <h2>Período letivo de referência</h2>
+  {% if semestre_ativo %}
+    <p>
+      <strong>{{ semestre_ativo.codigo }}</strong> — oferta atualizada em
+      {{ semestre_ativo.oferta_atualizada_em|default:"data não informada" }}.
+    </p>
+  {% else %}
+    <p class="alerta">Nenhum semestre está marcado como ativo.</p>
+  {% endif %}
+</section>
+
+{% if pendencias %}
+<section class="curadoria__bloco">
+  <h2>Pendências de qualidade</h2>
+  <ul class="curadoria__pendencias">
+    {% for pendencia in pendencias %}<li class="alerta">{{ pendencia }}</li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% for secao, itens in secoes_com_totais %}
+<section class="curadoria__bloco">
+  <h2>{{ secao }}</h2>
+  <ul class="curadoria__cartoes">
+    {% for item in itens %}
+      <li class="cartao">
+        <h3><a href="{% url 'curadoria:lista' item.entidade.slug %}">{{ item.entidade.rotulo_plural|capfirst }}</a></h3>
+        <p class="cartao__total">{{ item.total }} registro{{ item.total|pluralize }}</p>
+        <p class="cartao__descricao">{{ item.entidade.descricao }}</p>
+        <p><a href="{% url 'curadoria:criar' item.entidade.slug %}">+ novo</a></p>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+
+<section class="curadoria__bloco">
+  <h2>Últimas operações</h2>
+  {% if ultimas_cargas %}
+    <table class="tabela">
+      <thead><tr><th>Data</th><th>Entidade</th><th>Origem</th><th>Registros</th><th>Curador</th></tr></thead>
+      <tbody>
+        {% for carga in ultimas_cargas %}
+          <tr>
+            <td>{{ carga.criado_em }}</td>
+            <td>{{ carga.entidade }}</td>
+            <td>{{ carga.get_origem_display }}</td>
+            <td>{{ carga.registros_afetados }}</td>
+            <td>{{ carga.curador|default:"—" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p><a href="{% url 'curadoria:registro_carga' %}">Ver log completo</a></p>
+  {% else %}
+    <p>Nenhuma operação registrada.</p>
+  {% endif %}
+</section>
+{% endblock %}

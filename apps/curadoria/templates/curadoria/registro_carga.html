@@ -1,0 +1,74 @@
+{% extends "curadoria/base_curadoria.html" %}
+
+{% block titulo_curadoria %}Log de operações{% endblock %}
+
+{% block curadoria %}
+<h1>Log de operações</h1>
+<p class="curadoria__ajuda">
+  Histórico das cargas e edições manuais, com identificação do curador, data e
+  volume de registros afetados (RF46). O conteúdo dos registros não é
+  armazenado no log.
+</p>
+
+<form class="curadoria__filtros" method="get">
+  <p class="campo-grupo">
+    <label for="entidade">Entidade</label>
+    <select id="entidade" name="entidade">
+      <option value="">Todas</option>
+      {% for nome in entidades_registradas %}
+        <option value="{{ nome }}" {% if filtros.entidade == nome %}selected{% endif %}>{{ nome }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <p class="campo-grupo">
+    <label for="origem">Origem</label>
+    <select id="origem" name="origem">
+      <option value="">Todas</option>
+      {% for valor, rotulo in origens %}
+        <option value="{{ valor }}" {% if filtros.origem == valor %}selected{% endif %}>{{ rotulo }}</option>
+      {% endfor %}
+    </select>
+  </p>
+  <button type="submit" class="botao">Filtrar</button>
+  <a class="botao botao--discreto" href="{% url 'curadoria:registro_carga' %}">Limpar</a>
+</form>
+
+{% if registros %}
+<div class="tabela-rolagem">
+  <table class="tabela">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Entidade</th>
+        <th scope="col">Origem</th>
+        <th scope="col">Registros</th>
+        <th scope="col">Curador</th>
+        <th scope="col">Detalhe</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for registro in registros %}
+        <tr>
+          <td>{{ registro.criado_em }}</td>
+          <td>{{ registro.entidade }}</td>
+          <td>{{ registro.get_origem_display }}</td>
+          <td>{{ registro.registros_afetados }}</td>
+          <td>{{ registro.curador|default:"—" }}</td>
+          <td>{{ registro.detalhe|default:"—" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  <p>Nenhuma operação registrada para os critérios informados.</p>
+{% endif %}
+
+{% if is_paginated %}
+<nav class="paginacao" aria-label="Paginação">
+  {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">anterior</a>{% endif %}
+  <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">próxima</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

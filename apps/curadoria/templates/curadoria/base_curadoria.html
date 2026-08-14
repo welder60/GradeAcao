@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block titulo %}{% block titulo_curadoria %}Curadoria{% endblock %} · GradeAção{% endblock %}
+
+{% block conteudo %}
+<div class="curadoria">
+  <header class="curadoria__cabecalho">
+    <p class="curadoria__marca"><a href="{% url 'curadoria:painel' %}">GradeAção · Curadoria</a></p>
+    <p class="curadoria__usuario">
+      {{ request.user.get_username }} ·
+      <a href="{% url 'curadoria:registro_carga' %}">log de operações</a> ·
+      <a href="{% url 'comum:pagina_inicial' %}">sair da área</a>
+    </p>
+  </header>
+
+  <div class="curadoria__corpo">
+    <nav class="curadoria__navegacao" aria-label="Entidades sob curadoria">
+      {% for secao, entidades in secoes %}
+        <p class="curadoria__secao">{{ secao }}</p>
+        <ul>
+          {% for item in entidades %}
+            <li>
+              <a href="{% url 'curadoria:lista' item.slug %}"
+                 {% if entidade and entidade.slug == item.slug %}aria-current="page"{% endif %}>
+                {{ item.rotulo_plural|capfirst }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </nav>
+
+    <main class="curadoria__conteudo">
+      {% if messages %}
+        <ul class="curadoria__mensagens">
+          {% for mensagem in messages %}
+            <li class="mensagem mensagem--{{ mensagem.tags }}">{{ mensagem }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% block curadoria %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% endblock %}

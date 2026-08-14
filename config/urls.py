@@ -11,6 +11,8 @@ urlpatterns = [
     path("conta/", include("apps.contas.urls")),
     path("catalogo/", include("apps.catalogo.urls")),
     path("planejamento/", include("apps.planejamento.urls")),
+    # Área restrita de curadoria dos dados públicos (RF15, RN14).
+    path("curadoria/", include("apps.curadoria.urls")),
 ]
 
 if settings.DEBUG:

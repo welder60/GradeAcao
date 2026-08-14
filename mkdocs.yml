@@ -48,6 +48,7 @@ nav:
       - Documento de Requisitos: requisitos/documento-de-requisitos.md
   - Arquitetura:
       - Visão Geral: arquitetura/visao-geral.md
+      - Modelo de Dados: arquitetura/modelo-de-dados.md
   - Desenvolvimento:
       - Ambiente Local: desenvolvimento/ambiente-local.md
       - Padrões de Código: desenvolvimento/padroes.md
@@ -68,7 +69,11 @@ markdown_extensions:
       permalink: true
       slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.highlight:

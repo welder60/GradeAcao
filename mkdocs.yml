@@ -51,6 +51,8 @@ nav:
   - Desenvolvimento:
       - Ambiente Local: desenvolvimento/ambiente-local.md
       - Padrões de Código: desenvolvimento/padroes.md
+  - Equipe:
+      - Desenvolvedores: equipe/desenvolvedores.md
 
 markdown_extensions:
   - admonition

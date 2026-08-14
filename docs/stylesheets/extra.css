@@ -1,0 +1,19 @@
+/* Paleta do GradeAção — ver docs/design/identidade-visual.md.
+   Inspirada nas cores institucionais da UnB (Azul Pantone 654 / Verde Pantone 348),
+   sem uso da marca. */
+
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #003366;
+  --md-primary-fg-color--light: #33557f;
+  --md-primary-fg-color--dark: #00264d;
+  --md-accent-fg-color: #006633;
+  --md-typeset-a-color: #003366;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #003366;
+  --md-primary-fg-color--light: #33557f;
+  --md-primary-fg-color--dark: #00264d;
+  --md-accent-fg-color: #66cc99;
+  --md-typeset-a-color: #6699cc;
+}

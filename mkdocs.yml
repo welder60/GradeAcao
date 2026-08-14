@@ -18,15 +18,15 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: teal
-      accent: teal
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
         name: Alternar para modo escuro
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
-      accent: teal
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-sunny
         name: Alternar para modo claro
@@ -51,6 +51,8 @@ nav:
   - Desenvolvimento:
       - Ambiente Local: desenvolvimento/ambiente-local.md
       - Padrões de Código: desenvolvimento/padroes.md
+  - Design:
+      - Identidade Visual: design/identidade-visual.md
   - Equipe:
       - Desenvolvedores: equipe/desenvolvedores.md
 
@@ -69,6 +71,9 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.highlight:
       anchor_linenums: true
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search:
